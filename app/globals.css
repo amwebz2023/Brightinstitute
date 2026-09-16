@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #071426;
+  --foreground: #f5f7fb;
 }
 
 @theme inline {
@@ -23,4 +23,37 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+.fa.fa-whatsapp {
+  font-size: 2.25rem !important;
+  line-height: 1;
+}
+::selection { background: #f2c14e; color: #071426; }
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(18px, -14px, 0) scale(1.05); }
+}
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.24); }
+  50% { box-shadow: 0 0 0 12px rgba(242, 193, 78, 0); }
+}
+.animate-drift { animation: drift 12s ease-in-out infinite; }
+.animate-drift-slow { animation: drift 16s ease-in-out infinite reverse; }
+.animate-pulse-ring { animation: pulse-ring 2.4s ease-in-out infinite; }
+
+#home div.absolute.-bottom-5.-left-5 p.text-sm.font-bold:last-child {
+  font-size: 0;
+}
+
+#home div.absolute.-bottom-5.-left-5 p.text-sm.font-bold:last-child::after {
+  content: "Learn - Grow - Excel";
+  font-size: 0.875rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }

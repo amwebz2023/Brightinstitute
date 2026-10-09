@@ -23,6 +23,9 @@ type NavItem = "Home" | "Programs" | "Gallery" | "Why Us" | "Contact";
 
 export default function AcademyPage() {
   const [menuOpen, setMenuOpen] = useState(false); const [scrolled, setScrolled] = useState(false); const [progress, setProgress] = useState(0); const [activeLink, setActiveLink] = useState<NavItem>("Home");
+  const [contactName, setContactName] = useState("");
+  const [contactCountryCode, setContactCountryCode] = useState("+91");
+  const [contactPhone, setContactPhone] = useState("");
   const links = useMemo(() => ["Home", "Programs", "Gallery", "Why Us", "Contact"] as const, []);
   const sectionMap = useMemo<Record<NavItem, string>>(() => ({ Home: "home", Programs: "programs", Gallery: "gallery", "Why Us": "why-us", Contact: "contact" }), []);
   useEffect(() => { const update = () => { const max = document.documentElement.scrollHeight - window.innerHeight; setProgress(max > 0 ? (window.scrollY / max) * 100 : 0); setScrolled(window.scrollY > 24); }; window.addEventListener("scroll", update, { passive: true }); update(); return () => window.removeEventListener("scroll", update); }, []);
@@ -43,10 +46,11 @@ export default function AcademyPage() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const name = String(formData.get("name") ?? "");
+    const countryCode = String(formData.get("countryCode") ?? "");
     const phone = String(formData.get("phone") ?? "");
     const program = String(formData.get("program") ?? "");
     const message = String(formData.get("message") ?? "");
-    const whatsappMessage = `Hello Bright Academy, I would like to enquire about admission.%0A%0AName: ${name}%0APhone: ${phone}%0AProgram: ${program}%0AMessage: ${message || "Please share more details."}`;
+    const whatsappMessage = `Hello Bright Academy, I would like to enquire about admission.%0A%0AName: ${name}%0APhone: ${countryCode}${phone}%0AProgram: ${program}%0AMessage: ${message || "Please share more details."}`;
     window.open(`https://wa.me/919842398010?text=${whatsappMessage}`, "_blank", "noopener,noreferrer");
   };
   const hrefFor = (item: NavItem) => `#${sectionMap[item]}`;
@@ -59,8 +63,103 @@ export default function AcademyPage() {
     <section id="why-us" className="relative overflow-hidden bg-[#0c2038] py-24 lg:py-32"><div className="absolute right-0 top-0 h-full w-1/3 bg-[linear-gradient(135deg,transparent_45%,rgba(242,193,78,.06)_45%)]" /><div className="relative mx-auto max-w-7xl px-5 lg:px-8"><div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"><div><SectionLabel>Why Bright Academy</SectionLabel><h2 className="max-w-lg text-4xl font-black leading-tight tracking-[-0.04em] sm:text-5xl">Good teaching is personal.</h2><p className="mt-6 max-w-md text-base leading-7 text-white/60">We meet students where they are, then help them move forward with consistency, care and a little more belief.</p></div><div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">{features.map((feature, index) => { const Icon = feature.icon; return <motion.div key={feature.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} transition={{ duration: 0.45, delay: index * 0.08 }} className="border-t border-white/15 pt-4"><div className="mb-7 flex items-center justify-between"><Icon className="text-[#f2c14e]" size={24} /><span className="font-mono text-xs text-white/35">0{index + 1}</span></div><h3 className="max-w-[170px] text-lg font-bold leading-snug">{feature.title}</h3></motion.div>; })}</div></div></div></section>
     <section className="bg-[#f2c14e] py-16 text-[#071426] lg:py-20"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-5 sm:flex-row sm:items-center lg:px-8"><div><p className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-[#071426]/60">A little more than tuition</p><h2 className="text-4xl font-black tracking-[-0.04em] sm:text-5xl">Abacus builds<br /><span className="text-[#e84b3c]">bright minds.</span></h2></div><div className="max-w-md"><p className="text-base leading-7 text-[#071426]/70">For ages 6 and up, our 8-level Abacus journey develops faster calculation, better concentration and stronger brain development.</p><div className="mt-6 flex flex-wrap gap-2"><span className="rounded-full bg-[#071426] px-4 py-2 text-xs font-bold text-white">Age 6+ years</span><span className="rounded-full bg-white/50 px-4 py-2 text-xs font-bold">Up to 8 levels</span></div></div><div className="hidden h-28 w-28 shrink-0 place-items-center rounded-full border-2 border-[#071426]/20 sm:grid"><Brain size={44} /></div></div></section>
     <section className="bg-[#e84b3c] px-5 py-16 text-white lg:px-8"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-7 sm:flex-row sm:items-center"><div><p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-white/70">Ready when you are</p><h2 className="text-3xl font-black tracking-tight sm:text-4xl">Admission Open. Limited Seats.</h2></div><a href="#contact" className="animate-pulse-ring inline-flex items-center gap-3 rounded-full bg-[#071426] px-6 py-4 text-sm font-bold transition-transform hover:-translate-y-1">Enroll Now <ArrowUpRight size={17} /></a></div></section>
-    <section id="contact" className="bg-[#071426] py-24 lg:py-32"><div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-[0.75fr_1.25fr] lg:px-8"><div><SectionLabel>Come say hello</SectionLabel><h2 className="max-w-md text-4xl font-black leading-tight tracking-[-0.04em] sm:text-5xl">Your next step<br /><span className="text-[#f2c14e]">starts here.</span></h2><div className="mt-10 space-y-6 text-sm text-white/65"><a href="https://maps.google.com/?q=Bright+Academy%2C+Vadamathathi+Street%2C+Danish+School+Opposite+Road%2C+Near+Green+Park+Nursery+School%2C+Tiruvannamalai" target="_blank" rel="noreferrer" className="flex gap-4 transition-colors hover:text-[#f2c14e]"><MapPin className="shrink-0 text-[#f2c14e]" size={20} /><span>Vadamathathi Street, Danish School Opposite Road,<br />Near Green Park Nursery School, Tiruvannamalai</span></a><div className="flex gap-4"><Phone className="shrink-0 text-[#f2c14e]" size={20} /><span><a className="block hover:text-[#f2c14e]" href="tel:+919842398010">+91 98423 98010</a><a className="block hover:text-[#f2c14e]" href="tel:+919894150810">+91 98941 50810</a></span></div><a href="mailto:info@brightacademy.com" className="flex gap-4 hover:text-[#f2c14e]"><Mail className="shrink-0 text-[#f2c14e]" size={20} />info@brightacademy.com</a></div><a href="https://wa.me/919842398010" target="_blank" rel="noreferrer" className="mt-9 inline-flex items-center gap-2 rounded-full border border-[#25d366]/50 px-5 py-3 text-sm font-bold text-[#7ee7a0] transition-colors hover:bg-[#25d366]/10"><Phone size={16} /> WhatsApp us</a></div><div className="contents"><form onSubmit={handleContactSubmit} className="rounded-2xl border border-white/10 bg-[#0c2038] p-6 sm:p-8"><div className="mb-6"><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f2c14e]">Admission enquiry</p><h3 className="mt-2 text-2xl font-black">Tell us how we can help.</h3></div><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm font-semibold text-white/70">Your name<input required name="name" type="text" placeholder="Enter your name" className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#f2c14e]" /></label><label className="text-sm font-semibold text-white/70">Phone number<input required name="phone" type="tel" placeholder="Enter your number" className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#f2c14e]" /></label></div><label className="mt-4 block text-sm font-semibold text-white/70">Interested in<select name="program" defaultValue="12th Tuition" className="mt-2 w-full rounded-xl border border-white/15 bg-[#102a47] px-4 py-3 font-normal text-white outline-none focus:border-[#f2c14e]"><option>12th Tuition (Matric)</option><option>10th Maths</option><option>Abacus Class</option><option>1st to 6th Std</option><option>7th to 9th Std</option></select></label><label className="mt-4 block text-sm font-semibold text-white/70">Message<span className="ml-2 font-normal text-white/35">(optional)</span><textarea name="message" rows={3} placeholder="Tell us what you are looking for" className="mt-2 w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#f2c14e]" /></label><button type="submit" className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#e84b3c] px-6 py-3.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5">Send on WhatsApp <ArrowUpRight size={17} /></button></form><div className="lg:col-span-2 overflow-hidden rounded-2xl border border-white/10 bg-[#102a47]"><iframe title="Bright Academy location map" src="https://www.google.com/maps?q=Bright+Academy%2C+Vadamathathi+Street%2C+Danish+School+Opposite+Road%2C+Near+Green+Park+Nursery+School%2C+Tiruvannamalai&output=embed" className="h-[420px] w-full border-0 grayscale-[0.2]" loading="lazy" /></div></div></div></section>
-    <footer className="border-t border-white/10 bg-[#071426] py-8"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 px-5 text-xs text-white/40 sm:flex-row sm:items-center lg:px-8"><div className="flex items-center gap-2 text-sm font-black text-white"><span className="grid h-8 w-8 place-items-center rounded-lg bg-[#f2c14e] text-[#071426]"><GraduationCap size={17} /></span> Bright Academy</div><p>&copy; 2026 Bright Academy. <span className="text-white/25">|</span> Designed and developed by <a href="https://www.amwebz.com/" target="_blank" rel="noreferrer" className="font-semibold text-white/60 transition-colors hover:text-[#f2c14e]">amwebz</a> <Heart className="mx-1 inline-block text-[#e84b3c]" size={12} fill="currentColor" aria-label="with love" /></p><div className="flex gap-4"><a href="#home" className="hover:text-[#f2c14e]">Instagram</a><a href="#home" className="hover:text-[#f2c14e]">Facebook</a></div></div></footer>
+    <section id="contact" className="bg-[#071426] py-24 lg:py-32">
+      <div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-[0.75fr_1.25fr] lg:px-8">
+        <div>
+          <SectionLabel>Come say hello</SectionLabel>
+          <h2 className="max-w-md text-4xl font-black leading-tight tracking-[-0.04em] sm:text-5xl">Your next step<br /><span className="text-[#f2c14e]">starts here.</span></h2>
+          <div className="mt-10 space-y-6 text-sm text-white/65">
+            <a href="https://maps.google.com/?q=Bright+Academy%2C+Vadamathathi+Street%2C+Danish+School+Opposite+Road%2C+Near+Green+Park+Nursery+School%2C+Tiruvannamalai" target="_blank" rel="noreferrer" className="flex gap-4 transition-colors hover:text-[#f2c14e]">
+              <MapPin className="shrink-0 text-[#f2c14e]" size={20} />
+              <span>Vadamathathi Street, Danish School Opposite Road,<br />Near Green Park Nursery School, Tiruvannamalai</span>
+            </a>
+            <div className="flex gap-4">
+              <Phone className="shrink-0 text-[#f2c14e]" size={20} />
+              <span>
+                <a className="block hover:text-[#f2c14e]" href="tel:+919842398010">+91 98423 98010</a>
+                <a className="block hover:text-[#f2c14e]" href="tel:+919894150810">+91 98941 50810</a>
+              </span>
+            </div>
+            <a href="mailto:info@brightacademy.com" className="flex gap-4 hover:text-[#f2c14e]"><Mail className="shrink-0 text-[#f2c14e]" size={20} />info@brightacademy.com</a>
+          </div>
+          <a href="https://wa.me/919842398010" target="_blank" rel="noreferrer" className="mt-9 inline-flex items-center gap-2 rounded-full border border-[#25d366]/50 px-5 py-3 text-sm font-bold text-[#7ee7a0] transition-colors hover:bg-[#25d366]/10"><Phone size={16} /> WhatsApp us</a>
+        </div>
+        <div className="contents">
+          <form onSubmit={handleContactSubmit} className="rounded-2xl border border-white/10 bg-[#0c2038] p-6 sm:p-8">
+            <div className="mb-6">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f2c14e]">Admission enquiry</p>
+              <h3 className="mt-2 text-2xl font-black">Tell us how we can help.</h3>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="text-sm font-semibold text-white/70">
+                Your name
+                <input
+                  required
+                  name="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  pattern={"[\\p{L} ]+"}
+                  title="Use letters and spaces only"
+                  value={contactName}
+                  onChange={(event) => setContactName(event.target.value.replace(/[^\p{L} ]/gu, ""))}
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#f2c14e]"
+                />
+              </label>
+              <fieldset className="min-w-0">
+                <legend className="text-sm font-semibold text-white/70">Phone number</legend>
+                <div className="mt-2 grid grid-cols-[auto_1fr] gap-2">
+                  <input
+                    required
+                    aria-label="Country code"
+                    name="countryCode"
+                    type="tel"
+                    inputMode="numeric"
+                    maxLength={4}
+                    pattern={"\\+[0-9]{1,3}"}
+                    title="Enter a country code with 1 to 3 digits"
+                    value={contactCountryCode}
+                    onChange={(event) => setContactCountryCode(`+${event.target.value.replace(/\D/g, "").slice(0, 3)}`)}
+                    className="w-20 rounded-xl border border-white/15 bg-white/5 px-3 py-3 font-normal text-white outline-none transition-colors focus:border-[#f2c14e]"
+                  />
+                  <input
+                    required
+                    aria-label="Phone number"
+                    name="phone"
+                    type="tel"
+                    inputMode="numeric"
+                    maxLength={10}
+                    pattern="[0-9]{10}"
+                    title="Enter exactly 10 digits"
+                    placeholder="Enter your number"
+                    value={contactPhone}
+                    onChange={(event) => setContactPhone(event.target.value.replace(/\D/g, "").slice(0, 10))}
+                    className="min-w-0 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#f2c14e]"
+                  />
+                </div>
+              </fieldset>
+            </div>
+            <label className="mt-4 block text-sm font-semibold text-white/70">Interested in<select required name="program" defaultValue="12th Tuition" className="mt-2 w-full rounded-xl border border-white/15 bg-[#102a47] px-4 py-3 font-normal text-white outline-none focus:border-[#f2c14e]"><option>12th Tuition (Matric)</option><option>10th Maths</option><option>Abacus Class</option><option>1st to 6th Std</option><option>7th to 9th Std</option><option>Yoga</option><option>Home Tuition</option></select></label>
+            <label className="mt-4 block text-sm font-semibold text-white/70">Message<textarea required name="message" rows={3} placeholder="Tell us what you are looking for" className="mt-2 w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#f2c14e]" /></label>
+            <button type="submit" className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#e84b3c] px-6 py-3.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5">Send on WhatsApp <ArrowUpRight size={17} /></button>
+          </form>
+          <div className="lg:col-span-2 overflow-hidden rounded-2xl border border-white/10 bg-[#102a47]">
+            <iframe title="Bright Academy location map" src="https://www.google.com/maps?q=Bright+Academy%2C+Vadamathathi+Street%2C+Danish+School+Opposite+Road%2C+Near+Green+Park+Nursery+School%2C+Tiruvannamalai&output=embed" className="h-[420px] w-full border-0 grayscale-[0.2]" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer className="border-t border-white/10 bg-[#071426] py-8">
+      <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 px-5 text-xs text-white/40 sm:flex-row sm:items-center lg:px-8">
+        <div className="flex items-center gap-2 text-sm font-black text-white"><span className="grid h-8 w-8 place-items-center rounded-lg bg-[#f2c14e] text-[#071426]"><GraduationCap size={17} /></span> Bright Academy</div>
+        <p>
+          &copy; 2026 Bright Academy. <span className="text-white/25">|</span> Designed and developed by{" "}
+          <a href="https://www.amwebz.com/" target="_blank" rel="noopener noreferrer" className="mx-1 inline-block align-middle transition-opacity hover:opacity-80">
+            <Image src="/amwebz-footer-logo.svg" alt="amwebz" width={80} height={40} className="h-8 w-16 object-contain" />
+          </a>
+        </p>
+        <div className="flex gap-4"><a href="#home" className="hover:text-[#f2c14e]">Instagram</a><a href="#home" className="hover:text-[#f2c14e]">Facebook</a></div>
+      </div>
+    </footer>
     <a href="https://wa.me/919842398010" target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp" className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25d366] text-white shadow-xl shadow-[#25d366]/25 transition-transform hover:scale-105"><i className="fa fa-whatsapp text-3xl" aria-hidden="true" /></a>{scrolled && <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" className="fixed bottom-5 left-5 z-40 grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-[#0c2038] text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-[#f2c14e] hover:text-[#071426]"><ArrowUp size={18} /></button>}
   </main>;
 }

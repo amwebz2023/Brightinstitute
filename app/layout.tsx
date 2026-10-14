@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "font-awesome/css/font-awesome.css";
+import { siteUrl } from "./site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Bright Academy | Tuition Center Tiruvannamalai",
   description: "Bright Academy offers concept-based tuition, Abacus classes, and focused academic support in Tiruvannamalai.",
 };

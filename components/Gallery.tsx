@@ -6,11 +6,12 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
 const galleryImages = [
-  { src: "/gallery1-optimized.jpg", alt: "Bright Academy students learning together" },
-  { src: "/gallery2-optimized.jpg", alt: "Bright Academy classroom activity" },
-  { src: "/gallery3-optimized.jpg", alt: "Bright Academy students in class" },
-  { src: "/gallery4-optimized.jpg", alt: "Bright Academy student study moment" },
-  { src: "/gallery5-optimized.jpg", alt: "Bright Academy student celebrating progress" },
+  { src: "/yoga_1.jpg", alt: "Yoga practice at Bright Academy" },
+  { src: "/yoga_2.jpg", alt: "Yoga practice at Bright Academy" },
+  { src: "/yoga_3.jpg", alt: "Yoga practice at Bright Academy" },
+  { src: "/yoga_6.jpg", alt: "Yoga practice at Bright Academy", position: "top" },
+  { src: "/yoga_7.jpg", alt: "Yoga practice at Bright Academy", position: "top" },
+  { src: "/yoga_8.jpg", alt: "Yoga practice at Bright Academy" },
 ];
 
 export default function Gallery() {
@@ -61,7 +62,7 @@ export default function Gallery() {
         <div ref={carouselRef} onMouseEnter={() => { isPaused.current = true; }} onMouseLeave={() => { isPaused.current = false; }} onFocus={() => { isPaused.current = true; }} onBlur={() => { isPaused.current = false; }} className="mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {galleryImages.map((image, index) => (
             <motion.figure key={image.src} initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.55, delay: index * 0.08 }} className="group relative aspect-[4/3] w-[calc((100%-2rem)/3)] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-[#102a47]">
-              <Image src={image.src} alt={image.alt} fill sizes="33.333vw" className="object-cover transition duration-700 group-hover:scale-105" />
+              <Image src={image.src} alt={image.alt} fill sizes="33.333vw" className={`object-cover ${image.position === "top" ? "object-top" : "object-center"} transition duration-700 group-hover:scale-105`} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#071426]/80 via-transparent to-transparent opacity-80" />
             </motion.figure>
           ))}

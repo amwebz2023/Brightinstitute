@@ -45,14 +45,6 @@ body { overflow-x: hidden; }
 .animate-drift-slow { animation: drift 16s ease-in-out infinite reverse; }
 .animate-pulse-ring { animation: pulse-ring 2.4s ease-in-out infinite; }
 
-#home div.absolute.-bottom-5.-left-5 p.text-sm.font-bold:last-child {
-  font-size: 0;
-}
-
-#home div.absolute.-bottom-5.-left-5 p.text-sm.font-bold:last-child::after {
-  content: "Learn - Grow - Excel";
-  font-size: 0.875rem;
-}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

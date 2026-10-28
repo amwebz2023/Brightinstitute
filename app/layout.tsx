@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Bright Academy | Tuition Center Tiruvannamalai",
   description: "Bright Academy offers concept-based tuition, Abacus classes, and focused academic support in Tiruvannamalai.",
+  icons: {
+    icon: "/brightacademylogo.jpg",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

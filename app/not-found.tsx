@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, GraduationCap } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -7,10 +8,10 @@ export default function NotFound() {
       <div className="w-full max-w-xl text-center">
         <Link
           href="/"
-          className="mx-auto mb-10 grid h-14 w-14 place-items-center rounded-2xl bg-[#f2c14e] text-[#071426]"
+          className="mx-auto mb-10 grid h-14 w-14 place-items-center"
           aria-label="Bright Academy home"
         >
-          <GraduationCap size={30} strokeWidth={2.5} />
+          <Image src="/brightacademylogo.jpg" alt="" width={56} height={59} className="h-14 w-14 rounded-2xl object-contain" />
         </Link>
         <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#f2c14e]">
           Page not found
